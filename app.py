@@ -25,20 +25,26 @@ if st.button("🚀 Bắt đầu tải"):
                     os.remove(f)
 
                 # Lệnh yt-dlp với cấu hình chống lỗi 403
-                cmd = [
-                    "yt-dlp",
-    "--cookies", "cookies.txt",  # <--- Thêm dòng này để dùng danh tính thật
-    "--no-playlist",
-                    "yt-dlp",
-                    "--no-playlist",
-                    "--no-check-certificate",
-                    "--no-warnings",
-                    # Giả lập trình duyệt Chrome thật trên Windows
-                    "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                    "--add-header", "Accept-Language: vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7",
-                    "--add-header", "Sec-Ch-Ua-Platform: Windows",
-                    "-o", f"{OUTPUT_DIR}/%(title)s.%(ext)s"
-                ]
+                # Lệnh yt-dlp đã sửa lỗi tham số
+            cmd = [
+                "yt-dlp",
+                "--no-playlist",
+                "--no-check-certificate",
+                "--no-warnings",
+                "--cookies", "cookies.txt",  # Đảm bảo file này có trên GitHub
+                "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+                "-o", f"{OUTPUT_DIR}/%(title)s.%(ext)s"
+            ]
+
+            if format_choice == "🎵 Nhạc MP3":
+                cmd.extend(["-x", "--audio-format", "mp3", "--audio-quality", "0"])
+            else:
+                # Sửa lỗi 'Format not available': 
+                # Thử lấy MP4 tốt nhất, nếu không có thì lấy bất kỳ định dạng nào tốt nhất rồi gộp thành MP4
+                cmd.extend(["-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv+ba/b", "--merge-output-format", "mp4"])
+
+            # QUAN TRỌNG: Đảm bảo url là tham số cuối cùng và không bị nhầm lẫn
+            cmd.append(url)
 
                 if format_choice == "🎵 Nhạc MP3":
                     cmd.extend(["-x", "--audio-format", "mp3", "--audio-quality", "0"])
