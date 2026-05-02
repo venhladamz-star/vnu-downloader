@@ -27,6 +27,9 @@ if st.button("🚀 Bắt đầu tải"):
                 # Lệnh yt-dlp với cấu hình chống lỗi 403
                 cmd = [
                     "yt-dlp",
+    "--cookies", "cookies.txt",  # <--- Thêm dòng này để dùng danh tính thật
+    "--no-playlist",
+                    "yt-dlp",
                     "--no-playlist",
                     "--no-check-certificate",
                     "--no-warnings",
