@@ -29,10 +29,12 @@ if st.button("🚀 Bắt đầu xử lý"):
     else:
         with st.spinner('Đang thực thi các bước vượt rào cản hệ thống...'):
             try:
-                # 1. Dọn dẹp file cũ trong thư mục tạm
+                # 1. Dọn dẹp file cũ
                 for f in glob.glob(f"{OUTPUT_DIR}/*"):
-                    try: os.remove(f)
-                    except: pass
+                    try:
+                        os.remove(f)
+                    except:
+                        pass
 
                 # 2. Cấu hình lệnh yt-dlp
                 cmd = [
@@ -44,27 +46,22 @@ if st.button("🚀 Bắt đầu xử lý"):
                     "--add-header", "Accept-Language: vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7",
                 ]
 
-                # Tự động dùng cookies nếu có
+                # Dùng cookies để tránh lỗi 403
                 if os.path.exists("cookies.txt"):
                     cmd.extend(["--cookies", "cookies.txt"])
 
-                # Cấu hình đường dẫn đầu ra
                 cmd.extend(["-o", f"{OUTPUT_DIR}/%(title)s.%(ext)s"])
 
-               if format_choice == "🎵 Nhạc MP3":
-    # Chế độ tải nhạc: trích xuất âm thanh chất lượng tốt nhất
-    cmd.extend(["-x", "--audio-format", "mp3", "--audio-quality", "0"])
-else:
-    # KHẮC PHỤC LỖI "Requested format is not available":
-    # Ưu tiên 1: Video MP4 + Audio M4A (để không phải convert)
-    # Ưu tiên 2: Bất kỳ Video + Audio nào tốt nhất rồi gộp thành MP4
-    # Ưu tiên 3: File đơn (single file) có định dạng MP4 tốt nhất
-    cmd.extend([
-        "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv+ba/b",
-        "--merge-output-format", "mp4"
-    ])
+                if format_choice == "🎵 Nhạc MP3":
+                    # Trích xuất âm thanh chất lượng tốt nhất
+                    cmd.extend(["-x", "--audio-format", "mp3", "--audio-quality", "0"])
+                else:
+                    # Fix lỗi 'Requested format is not available'[cite: 2]
+                    cmd.extend([
+                        "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv+ba/b",
+                        "--merge-output-format", "mp4"
+                    ])
 
-                # Tham số cuối cùng luôn là URL[cite: 2]
                 cmd.append(url)
 
                 # 3. Chạy lệnh hệ thống
@@ -76,7 +73,7 @@ else:
                         file_path = os.path.join(OUTPUT_DIR, downloaded_files[0])
                         with open(file_path, "rb") as f:
                             file_data = f.read()
-                            st.success(f"✨ Xử lý thành công: {downloaded_files[0]}")
+                            st.success(f"✅ Xử lý thành công: {downloaded_files[0]}")
                             st.download_button(
                                 label="⬇️ NHẤN VÀO ĐÂY ĐỂ TẢI VỀ MÁY",
                                 data=file_data,
@@ -84,15 +81,14 @@ else:
                                 mime="application/octet-stream"
                             )
                     else:
-                        st.error("Lỗi: Không tìm thấy file sau khi tải xuống.")
+                        st.error("Lỗi: Không tìm thấy file sau khi tải.")
                 else:
-                    st.error("❌ Hệ thống gặp sự cố (Có thể do IP bị chặn hoặc Link lỗi).")
-                    with st.expander("Xem chi tiết lỗi kỹ thuật"):
+                    st.error("❌ Hệ thống gặp sự cố.")
+                    with st.expander("Xem chi tiết lỗi"):
                         st.code(result.stderr)
 
             except Exception as e:
-                # Khối lệnh xử lý ngoại lệ để tránh lỗi SyntaxError[cite: 2]
-                st.error(f"Đã xảy ra sự cố ngoài ý muốn: {str(e)}")
+                st.error(f"Đã xảy ra sự cố: {str(e)}")
 
 st.markdown("---")
-st.caption("Ứng dụng dành cho bạn bè & người thân | Vũ Bảo Khuê - VNU UET")
+st.caption("Developed by Khuê Vũ - VNU Engineering Student")
