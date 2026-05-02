@@ -51,15 +51,18 @@ if st.button("🚀 Bắt đầu xử lý"):
                 # Cấu hình đường dẫn đầu ra
                 cmd.extend(["-o", f"{OUTPUT_DIR}/%(title)s.%(ext)s"])
 
-                if format_choice == "🎵 Nhạc MP3":
-                    # Trích xuất âm thanh chất lượng cao
-                    cmd.extend(["-x", "--audio-format", "mp3", "--audio-quality", "0"])
-                else:
-                    # Sửa lỗi 'Requested format is not available' bằng cách ưu tiên MP4 linh hoạt
-                    cmd.extend([
-                        "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv+ba/b",
-                        "--merge-output-format", "mp4"
-                    ])
+               if format_choice == "🎵 Nhạc MP3":
+    # Chế độ tải nhạc: trích xuất âm thanh chất lượng tốt nhất
+    cmd.extend(["-x", "--audio-format", "mp3", "--audio-quality", "0"])
+else:
+    # KHẮC PHỤC LỖI "Requested format is not available":
+    # Ưu tiên 1: Video MP4 + Audio M4A (để không phải convert)
+    # Ưu tiên 2: Bất kỳ Video + Audio nào tốt nhất rồi gộp thành MP4
+    # Ưu tiên 3: File đơn (single file) có định dạng MP4 tốt nhất
+    cmd.extend([
+        "-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv+ba/b",
+        "--merge-output-format", "mp4"
+    ])
 
                 # Tham số cuối cùng luôn là URL[cite: 2]
                 cmd.append(url)
