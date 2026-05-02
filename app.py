@@ -6,55 +6,48 @@ import glob
 st.set_page_config(page_title="VNU Engineering Downloader", page_icon="🚀")
 st.title("🌍 Universal Downloader")
 
-# Thư mục tạm
 OUTPUT_DIR = "temp_downloads"
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
-url = st.text_input("🔗 Dán link vào đây:", placeholder="https://www.youtube.com/watch?v=...")
+url = st.text_input("🔗 Dán link vào đây:", placeholder="https://...")
 format_choice = st.radio("Chọn định dạng:", ("🎬 Video MP4", "🎵 Nhạc MP3"))
 
 if st.button("🚀 Bắt đầu tải"):
     if not url:
         st.warning("Vui lòng nhập link!")
     else:
-        with st.spinner('Đang thực thi các bước vượt rào cản hệ thống...'):
+        with st.spinner('Đang xử lý...'):
             try:
-                # Dọn dẹp file cũ
+                # 1. Dọn dẹp file cũ
                 for f in glob.glob(f"{OUTPUT_DIR}/*"):
                     os.remove(f)
 
-                # Lệnh yt-dlp với cấu hình chống lỗi 403
-                # Lệnh yt-dlp đã sửa lỗi tham số
-            cmd = [
-                "yt-dlp",
-                "--no-playlist",
-                "--no-check-certificate",
-                "--no-warnings",
-                "--cookies", "cookies.txt",  # Đảm bảo file này có trên GitHub
-                "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-                "-o", f"{OUTPUT_DIR}/%(title)s.%(ext)s"
-            ]
+                # 2. Cấu hình lệnh yt-dlp
+                # Lưu ý: Không để trống bất kỳ phần tử nào trong list cmd
+                cmd = [
+                    "yt-dlp",
+                    "--no-playlist",
+                    "--no-check-certificate",
+                    "--no-warnings",
+                    "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                ]
 
-            if format_choice == "🎵 Nhạc MP3":
-                cmd.extend(["-x", "--audio-format", "mp3", "--audio-quality", "0"])
-            else:
-                # Sửa lỗi 'Format not available': 
-                # Thử lấy MP4 tốt nhất, nếu không có thì lấy bất kỳ định dạng nào tốt nhất rồi gộp thành MP4
-                cmd.extend(["-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv+ba/b", "--merge-output-format", "mp4"])
+                # Kiểm tra nếu có file cookies thì mới thêm vào lệnh
+                if os.path.exists("cookies.txt"):
+                    cmd.extend(["--cookies", "cookies.txt"])
 
-            # QUAN TRỌNG: Đảm bảo url là tham số cuối cùng và không bị nhầm lẫn
-            cmd.append(url)
+                cmd.extend(["-o", f"{OUTPUT_DIR}/%(title)s.%(ext)s"])
 
                 if format_choice == "🎵 Nhạc MP3":
                     cmd.extend(["-x", "--audio-format", "mp3", "--audio-quality", "0"])
                 else:
-                    # Lấy mp4 có sẵn để tránh render nặng làm server bị sập[cite: 2]
-                    cmd.extend(["-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"])
+                    # Fix lỗi 'Format not available' bằng cách chọn định dạng linh hoạt
+                    cmd.extend(["-f", "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv+ba/b", "--merge-output-format", "mp4"])
 
                 cmd.append(url)
 
-                # Chạy lệnh
+                # 3. Chạy lệnh hệ thống
                 result = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8')
 
                 if result.returncode == 0:
@@ -64,10 +57,13 @@ if st.button("🚀 Bắt đầu tải"):
                         with open(file_path, "rb") as f:
                             st.success(f"✅ Thành công: {files[0]}")
                             st.download_button(label="⬇️ TẢI VỀ MÁY", data=f, file_name=files[0])
+                    else:
+                        st.error("Lỗi: Không tìm thấy file sau khi tải.")
                 else:
-                    st.error("Lỗi 403: YouTube đã chặn IP của server này.")
+                    st.error("Hệ thống bị chặn hoặc lỗi định dạng.")
                     with st.expander("Chi tiết lỗi"):
                         st.code(result.stderr)
 
             except Exception as e:
-                st.error(f"Lỗi: {e}")
+                # Đây là khối lệnh bạn bị thiếu dẫn đến lỗi SyntaxError[cite: 2]
+                st.error(f"Lỗi cú pháp hoặc hệ thống: {e}")
