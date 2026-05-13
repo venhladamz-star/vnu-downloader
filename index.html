@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer Play-Lab | Chơi thật - Học thật - Không màn hình</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #4ade80; /* Vibrant Kid Green */
+            --primary-dark: #22c55e;
+            --secondary: #fb923c; /* Energetic Orange */
+            --secondary-dark: #ea580c;
+            --bg-color: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 32px;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            color: var(--text-dark);
+            line-height: 1.3;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.15rem;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: var(--white);
+            box-shadow: 0 4px 14px rgba(251, 146, 60, 0.4);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(234, 88, 12, 0.4);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-dark);
+            border: 2px solid var(--primary-dark);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Header & Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            color: var(--secondary);
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links li a.nav-item {
+            font-weight: 700;
+            color: var(--text-dark);
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .nav-links li a.nav-item:hover {
+            color: var(--primary-dark);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Decorative circles */
+        .hero::before, .hero::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero::before {
+            width: 400px;
+            height: 400px;
+            background: rgba(74, 222, 128, 0.15);
+            top: -100px;
+            left: -150px;
+        }
+
+        .hero::after {
+            width: 500px;
+            height: 500px;
+            background: rgba(251, 146, 60, 0.1);
+            bottom: -200px;
+            right: -150px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 850px;
+            margin: 0 auto;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: var(--white);
+            color: var(--secondary-dark);
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            color: var(--secondary);
+            display: block;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image-wrapper {
+            background-color: #ffedd5;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-md);
+        }
+
+        .about-image-wrapper i {
+            font-size: 150px;
+            color: var(--secondary);
+            opacity: 0.8;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .about-image-wrapper h3 {
+            font-size: 2rem;
+            color: var(--secondary-dark);
+            font-weight: 800;
+        }
+
+        .about-features {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 24px;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border-left: 6px solid transparent;
+        }
+
+        .feature-item:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-item:nth-child(2):hover { border-left-color: #ec4899; }
+        .feature-item:nth-child(3):hover { border-left-color: var(--secondary); }
+        .feature-item:nth-child(4):hover { border-left-color: #3b82f6; }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .feature-item:nth-child(2) .feature-icon { background: #fce7f3; color: #ec4899; }
+        .feature-item:nth-child(3) .feature-icon { background: #ffedd5; color: var(--secondary-dark); }
+        .feature-item:nth-child(4) .feature-icon { background: #dbeafe; color: #3b82f6; }
+
+        .feature-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        /* Programs Section */
+        .programs-bg {
+            background-color: var(--white);
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .program-card {
+            background: var(--bg-color);
+            border-radius: var(--radius-md);
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--primary-dark);
+            transition: var(--transition);
+        }
+
+        .program-card:nth-child(2)::before { background: var(--secondary); }
+        .program-card:nth-child(3)::before { background: #3b82f6; }
+        .program-card:nth-child(4)::before { background: #ec4899; }
+
+        .program-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .program-card:nth-child(1):hover { border-color: rgba(34, 197, 94, 0.3); }
+        .program-card:nth-child(2):hover { border-color: rgba(251, 146, 60, 0.3); }
+        .program-card:nth-child(3):hover { border-color: rgba(59, 130, 246, 0.3); }
+        .program-card:nth-child(4):hover { border-color: rgba(236, 72, 153, 0.3); }
+
+        .program-icon {
+            font-size: 3.5rem;
+            margin-bottom: 24px;
+        }
+
+        .program-card:nth-child(1) .program-icon { color: var(--primary-dark); }
+        .program-card:nth-child(2) .program-icon { color: var(--secondary); }
+        .program-card:nth-child(3) .program-icon { color: #3b82f6; }
+        .program-card:nth-child(4) .program-icon { color: #ec4899; }
+
+        .program-card h3 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .benefit-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .benefit-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background: #dcfce7;
+            color: var(--primary-dark);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            transform: rotate(-10deg);
+        }
+
+        .benefit-card:nth-child(even) .benefit-icon {
+            background: #ffedd5;
+            color: var(--secondary-dark);
+            transform: rotate(10deg);
+        }
+
+        .benefit-content h4 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        /* Daily Lab-Log Section */
+        .lab-log-container {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #16a34a 100%);
+            border-radius: var(--radius-lg);
+            padding: 80px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 60px 24px;
+            box-shadow: var(--shadow-lg);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lab-log-container::before {
+            content: '\f201';
+            font-family: 'FontAwesome';
+            position: absolute;
+            font-size: 300px;
+            color: rgba(255, 255, 255, 0.05);
+            right: 10%;
+            top: -20%;
+        }
+
+        .lab-log-content {
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lab-log-content h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 24px;
+        }
+
+        .lab-log-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .lab-log-list li {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .lab-log-list i {
+            background: var(--white);
+            color: var(--primary-dark);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .mock-card {
+            background: var(--white);
+            color: var(--text-dark);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: rotate(4deg);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .mock-card:hover {
+            transform: rotate(0deg) scale(1.03);
+        }
+
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #e2e8f0;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .mock-date {
+            font-weight: 800;
+            color: var(--secondary-dark);
+            font-size: 1.1rem;
+        }
+
+        .mock-badge {
+            background: #dcfce7;
+            color: var(--primary-dark);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .mock-body p {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .mock-emojis {
+            display: flex;
+            gap: 12px;
+            font-size: 1.8rem;
+            margin-top: 24px;
+            justify-content: center;
+            background: var(--bg-color);
+            padding: 10px;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Services Section */
+        .services-bg {
+            background-color: var(--white);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--bg-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 1px solid #e2e8f0;
+        }
+
+        .service-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-8px);
+        }
+
+        .service-img {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        .service-card:nth-child(1) .service-img { background: #dcfce7; color: var(--primary-dark); }
+        .service-card:nth-child(2) .service-img { background: #ffedd5; color: var(--secondary-dark); }
+        .service-card:nth-child(3) .service-img { background: #e0e7ff; color: #4f46e5; }
+
+        .service-info {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .service-info h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        /* Registration Form */
+        .registration {
+            position: relative;
+        }
+
+        .reg-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 60px;
+            box-shadow: var(--shadow-lg);
+            border-top: 8px solid var(--secondary);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            font-size: 1.05rem;
+            transition: var(--transition);
+            background-color: var(--bg-color);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.2);
+        }
+
+        .form-btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.25rem;
+            margin-top: 16px;
+            border-radius: var(--radius-sm);
+        }
+
+        .success-message {
+            display: none;
+            background-color: #dcfce7;
+            color: var(--primary-dark);
+            padding: 30px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            animation: fadeInDown 0.5s ease;
+            border: 2px solid var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-dark);
+            color: var(--white);
+            padding: 80px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-brand h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .footer-brand p {
+            color: #cbd5e1;
+            margin-bottom: 30px;
+            max-width: 350px;
+            font-size: 1.1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+            color: var(--white);
+        }
+
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            color: var(--white);
+        }
+
+        .footer-links li {
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 8px;
+        }
+
+        .footer-contact li {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            color: #cbd5e1;
+            align-items: flex-start;
+        }
+
+        .footer-contact i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-top: 4px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        /* FAQ Section */
+        .faq-bg {
+            background-color: var(--white);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-color);
+            border-radius: var(--radius-sm);
+            margin-bottom: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            color: var(--primary-dark);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            color: var(--secondary);
+        }
+
+        .faq-answer {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .faq-answer-inner {
+            padding-bottom: 20px;
+        }
+
+        .faq-item.active {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* Floating Contact Button */
+        .floating-contact {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .float-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: var(--transition);
+            animation: bounce 2s infinite;
+        }
+
+        .float-zalo {
+            background-color: #0068ff;
+        }
+
+        .float-phone {
+            background-color: var(--primary-dark);
+            animation-delay: 1s;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1);
+            color: var(--white);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 3.5rem; }
+            .about-grid { gap: 40px; }
+            .lab-log-container { flex-direction: column; padding: 50px 40px; gap: 50px; text-align: center; }
+            .lab-log-list { align-items: center; display: inline-block; text-align: left; }
+            .mock-card { transform: rotate(0); margin: 0 auto; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { height: 70px; }
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 40px;
+                transition: var(--transition);
+                box-shadow: var(--shadow-md);
+            }
+            .nav-links.active { right: 0; }
+            .mobile-menu-btn { display: block; }
+            
+            .hero { padding: 130px 0 80px; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero-btns { flex-direction: column; padding: 0 20px; }
+            
+            .about-grid { grid-template-columns: 1fr; }
+            .about-image-wrapper { margin-bottom: 30px; }
+            
+            .form-grid { grid-template-columns: 1fr; }
+            .reg-container { padding: 40px 24px; }
+            
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .social-icons { justify-content: center; }
+            .footer-contact li { justify-content: center; flex-direction: column; align-items: center; gap: 8px;}
+            .footer-contact i { margin-top: 0; }
+            .footer-links a:hover { padding-left: 0; }
+            
+            .lab-log-container { margin: 40px 0; border-radius: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="container navbar">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-cube"></i>
+                Summer Play-Lab
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" class="nav-item">Về Chúng Tôi</a></li>
+                <li><a href="#programs" class="nav-item">Chương Trình</a></li>
+                <li><a href="#benefits" class="nav-item">Lợi Ích</a></li>
+                <li><a href="#services" class="nav-item">Dịch Vụ</a></li>
+                <li><a href="#faq" class="nav-item">Hỏi Đáp</a></li>
+                <li><a href="#register" class="btn btn-primary" style="padding: 10px 24px;">Đăng Ký</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileBtn">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container hero-content">
+            <div class="hero-badge">✨ Trại hè kỹ năng 2026 ✨</div>
+            <h1>Chơi thật – Học thật<br><span>Không màn hình</span></h1>
+            <p>Trải nghiệm học tập thực tế, đánh thức đa trí thông minh dành riêng cho trẻ từ 6-11 tuổi tại Hà Nội. Nơi con được là chính mình, an toàn và phát triển toàn diện.</p>
+            <div class="hero-btns">
+                <a href="#register" class="btn btn-primary">Đăng Ký Ngay <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#programs" class="btn btn-outline">Xem Chương Trình</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section-padding" id="about">
+        <div class="container about-grid">
+            <div class="about-image-wrapper">
+                <i class="fa-solid fa-face-smile-beam"></i>
+                <h3>Let's Play & Learn</h3>
+            </div>
+            <div class="about-features">
+                <div>
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 10px;">Summer Play-Lab là gì?</h2>
+                    <p style="color: var(--text-light); font-size: 1.1rem; margin-bottom: 20px;">Một trung tâm trải nghiệm hoàn toàn mới, loại bỏ sự phụ thuộc vào công nghệ để tập trung vào sự phát triển tự nhiên của trẻ.</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <div class="feature-content">
+                        <h3>Không thiết bị điện tử</h3>
+                        <p>Môi trường 100% "digital-detox". Không iPad, không điện thoại, giúp con kết nối chân thực với thế giới xung quanh.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-sun"></i></div>
+                    <div class="feature-content">
+                        <h3>Sáng học hỏi - Chiều hoạt động</h3>
+                        <p>Lộ trình thiết kế khoa học: Buổi sáng kích thích tư duy logic, buổi chiều giải phóng năng lượng qua thể thao.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                    <div class="feature-content">
+                        <h3>Báo cáo tiến độ mỗi ngày</h3>
+                        <p>Hệ thống Daily Lab-Log giúp ba mẹ luôn theo sát từng bước tiến, nụ cười và cảm xúc của con yêu mỗi ngày.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="section-padding programs-bg" id="programs">
+        <div class="container">
+            <h2 class="section-title">Chương Trình Trải Nghiệm</h2>
+            <p class="section-subtitle">Được thiết kế chuyên biệt dựa trên phương pháp giáo dục hiện đại, phù hợp với từng giai đoạn phát triển tâm sinh lý của trẻ.</p>
+            
+            <div class="programs-grid">
+                <div class="program-card">
+                    <div class="program-icon"><i class="fa-solid fa-microscope"></i></div>
+                    <h3>STEM Lab</h3>
+                    <p>Khám phá Khoa học, Công nghệ, Kỹ thuật, Toán học qua các thí nghiệm vui nhộn, thực hành làm mô hình tự động.</p>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-icon"><i class="fa-solid fa-palette"></i></div>
+                    <h3>Art & Music</h3>
+                    <p>Đánh thức khiếu thẩm mỹ qua hội họa, làm gốm, cảm thụ âm nhạc và các lớp kịch nghệ hóa thân đầy sáng tạo.</p>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-icon"><i class="fa-solid fa-volleyball"></i></div>
+                    <h3>Sports & Outdoor</h3>
+                    <p>Rèn luyện thể lực, tính kỷ luật và tinh thần đồng đội qua các giải đấu mini, bóng rổ, bơi lội và cắm trại.</p>
+                </div>
+                
+                <div class="program-card">
+                    <div class="program-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+                    <h3>Traditional Games</h3>
+                    <p>Giữ gìn bản sắc văn hóa với ô ăn quan, nhảy sạp, làm diều... rèn luyện sự khéo léo và trân trọng truyền thống.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section-padding" id="benefits">
+        <div class="container">
+            <h2 class="section-title">Hành Trang Con Đạt Được</h2>
+            <p class="section-subtitle">Chỉ sau một mùa hè, ba mẹ sẽ bất ngờ trước sự trưởng thành vượt bậc của con.</p>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div class="benefit-content">
+                        <h4>Giảm nghiện màn hình</h4>
+                        <p>Trẻ tự giác tìm kiếm niềm vui từ các hoạt động thực tế, dần từ bỏ thói quen lướt điện thoại vô thức.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-seedling"></i></div>
+                    <div class="benefit-content">
+                        <h4>Tăng cường kỹ năng sống</h4>
+                        <p>Tự lập trong sinh hoạt cá nhân, biết cách xử lý tình huống và thích nghi nhanh với môi trường mới.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                    <div class="benefit-content">
+                        <h4>Phát triển thể chất</h4>
+                        <p>Vận động liên tục giúp con ăn ngon miệng, ngủ sâu giấc, tăng cường sức đề kháng và chiều cao.</p>
+                    </div>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="benefit-content">
+                        <h4>Mở rộng giao tiếp xã hội</h4>
+                        <p>Phá vỡ sự tự ti, mạnh dạn kết bạn mới, học cách lắng nghe, chia sẻ và làm việc nhóm hiệu quả.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Lab-Log Section -->
+    <section id="lab-log">
+        <div class="container">
+            <div class="lab-log-container">
+                <div class="lab-log-content">
+                    <h2>Daily Lab-Log</h2>
+                    <p>Nhật ký điện tử độc quyền dành riêng cho phụ huynh. Ba mẹ không cần lo lắng con làm gì ở trại hè, vì mọi khoảnh khắc đều được ghi nhận.</p>
+                    <ul class="lab-log-list">
+                        <li><i class="fa-solid fa-camera"></i> Hình ảnh sinh hoạt chân thực nhất</li>
+                        <li><i class="fa-solid fa-face-smile"></i> Biểu đồ cảm xúc của con trong ngày</li>
+                        <li><i class="fa-solid fa-medal"></i> Thành tựu nổi bật con đạt được</li>
+                    </ul>
+                </div>
+                
+                <div class="mock-card">
+                    <div class="mock-header">
+                        <span class="mock-date">Thứ Ba, 16/06/2026</span>
+                        <span class="mock-badge">Báo cáo của Bo (8 tuổi)</span>
+                    </div>
+                    <div class="mock-body">
+                        <p><strong>🚀 Hoạt động STEM:</strong> Hôm nay Bo đã tự tay lắp ráp và phóng thành công tên lửa nước! Con rất tập trung, biết cách chia sẻ dụng cụ và nhường nhịn bạn bè.</p>
+                        <p><strong>🍱 Bữa trưa:</strong> Con ăn hết suất cơm cuộn, tự dọn dẹp khay gọn gàng.</p>
+                        <div class="mock-emojis">
+                            🤩 🚀 🌟 👏
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section-padding services-bg" id="services">
+        <div class="container">
+            <h2 class="section-title">Gói Dịch Vụ Của Chúng Tôi</h2>
+            <p class="section-subtitle">Linh hoạt theo thời gian biểu của gia đình, mang đến trải nghiệm xuyên suốt.</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-img">
+                        <i class="fa-solid fa-campground"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Bán Trú Mùa Hè</h3>
+                        <p>Thứ Hai - Thứ Sáu (8:00 - 17:00). Bao gồm ăn trưa và quà xế. Lộ trình toàn diện, thay thế hoàn toàn thời gian trông trẻ tại nhà.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img">
+                        <i class="fa-solid fa-school"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Lớp Ngoại Khóa Tối</h3>
+                        <p>Các lớp học chuyên sâu theo sở thích (STEM, Art, Dance) diễn ra vào các buổi tối trong tuần (18:00 - 19:30).</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img">
+                        <i class="fa-solid fa-calendar-star"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Workshop Cuối Tuần</h3>
+                        <p>Sự kiện diễn ra sáng Chủ Nhật định kỳ, thiết kế riêng để cả gia đình cùng tham gia, tạo kỷ niệm gắn kết tình thân.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQ Section -->
+    <section class="section-padding faq-bg" id="faq">
+        <div class="container">
+            <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
+            <p class="section-subtitle">Giải đáp những thắc mắc chung của ba mẹ về Summer Play-Lab.</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Trại hè có nhận trẻ chưa biết tự xúc ăn không?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Dạ có ạ. Đội ngũ giáo viên và bảo mẫu sẽ hướng dẫn và rèn luyện kỹ năng tự lập cho con trong suốt khóa học. Chỉ sau 1-2 tuần, đa số các bé đều tự giác trong bữa ăn.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Con có được dùng điện thoại gọi cho ba mẹ không?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Với tiêu chí "Không màn hình", trung tâm không khuyến khích trẻ mang điện thoại. Nếu cần liên lạc khẩn cấp, ba mẹ có thể gọi trực tiếp qua hotline của quản lý trại hè. Tình hình của bé sẽ được cập nhật liên tục qua Daily Lab-Log.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Lớp học có tối đa bao nhiêu bé?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Để đảm bảo chất lượng và sự tương tác tốt nhất, mỗi lớp học giới hạn tối đa 15 bé, được phụ trách bởi 1 giáo viên chính và 1 trợ giảng.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Chế độ dinh dưỡng của các bé như thế nào?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Thực đơn được thiết kế bởi chuyên gia dinh dưỡng, đảm bảo cung cấp đủ năng lượng cho các hoạt động thể chất. Bao gồm 1 bữa trưa đa dạng (luân phiên món Á - Âu) và 1 bữa xế chiều (trái cây, sữa, bánh ngọt tự làm).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Form Section -->
+    <section class="section-padding registration" id="register">
+        <div class="container">
+            <div class="reg-container">
+                <h2 class="section-title" style="margin-bottom: 15px;">Đăng Ký Nhận Tư Vấn</h2>
+                <p class="section-subtitle" style="margin-bottom: 40px; color: var(--text-dark);">Hãy để lại thông tin, đội ngũ của chúng tôi sẽ liên hệ để xếp lịch tham quan và tư vấn lộ trình phù hợp nhất cho bé.</p>
+                
+                <form id="regForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="parentName">Họ tên phụ huynh *</label>
+                            <input type="text" id="parentName" class="form-control" placeholder="Nhập họ tên ba/mẹ" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại *</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Ví dụ: 0912345678" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="childName">Họ tên bé *</label>
+                            <input type="text" id="childName" class="form-control" placeholder="Nhập họ tên bé" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="childAge">Tuổi của bé *</label>
+                            <select id="childAge" class="form-control" required>
+                                <option value="" disabled selected>-- Chọn tuổi của bé --</option>
+                                <option value="6">6 tuổi</option>
+                                <option value="7">7 tuổi</option>
+                                <option value="8">8 tuổi</option>
+                                <option value="9">9 tuổi</option>
+                                <option value="10">10 tuổi</option>
+                                <option value="11">11 tuổi</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <button type="submit" class="btn btn-primary form-btn">Gửi Thông Tin Đăng Ký <i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="success-message" id="successMsg">
+                    <i class="fa-solid fa-circle-check" style="font-size: 3rem; margin-bottom: 16px; display: block;"></i>
+                    Tuyệt vời! Thông tin đã được gửi thành công.<br>
+                    <span style="font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-top: 8px; display: block;">Summer Play-Lab sẽ liên hệ với bạn trong vòng 24h tới.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Floating Contact -->
+    <div class="floating-contact">
+        <a href="tel:0901234567" class="float-btn float-phone" title="Gọi ngay">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+        <a href="https://zalo.me/0901234567" target="_blank" class="float-btn float-zalo" title="Chat Zalo">
+            <i class="fa-solid fa-comment-dots"></i>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2><i class="fa-solid fa-cube" style="color: var(--secondary);"></i> Summer Play-Lab</h2>
+                    <p>Khởi nguồn cho một mùa hè năng động. Nơi trẻ được tự do khám phá, học hỏi kiến thức thực tế và phát triển các kỹ năng sống thiết yếu.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links-wrap">
+                    <h3 class="footer-title">Khám Phá</h3>
+                    <ul class="footer-links">
+                        <li><a href="#about">Về chúng tôi</a></li>
+                        <li><a href="#programs">Chương trình đào tạo</a></li>
+                        <li><a href="#benefits">Lợi ích mang lại</a></li>
+                        <li><a href="#services">Các gói dịch vụ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact-wrap">
+                    <h3 class="footer-title">Liên Hệ</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>123 Đường Thanh Niên, Phường Yên Phụ, Quận Tây Hồ, Hà Nội</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span>Hotline: 090 123 4567</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>Email: hello@summerplaylab.vn</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Summer Play-Lab Hanoi. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobileBtn');
+            const navLinks = document.getElementById('navLinks');
+            const navItems = document.querySelectorAll('.nav-item');
+
+            mobileBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                if(navLinks.classList.contains('active')) {
+                    mobileBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                } else {
+                    mobileBtn.innerHTML = '<i class="fa-solid fa-bars-staggered"></i>';
+                }
+            });
+
+            // Close mobile menu when clicking a link
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    mobileBtn.innerHTML = '<i class="fa-solid fa-bars-staggered"></i>';
+                });
+            });
+
+            // Sticky Navbar Styling on Scroll
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                    header.style.padding = '0';
+                } else {
+                    header.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+                    header.style.padding = '5px 0';
+                }
+            });
+
+            // Form Validation and Mock Submission
+            const regForm = document.getElementById('regForm');
+            const successMsg = document.getElementById('successMsg');
+
+            regForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Simple Phone Validation (Vietnamese format rough check)
+                const phone = document.getElementById('phone').value;
+                const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+                
+                if (!phoneRegex.test(phone)) {
+                    alert('Vui lòng nhập số điện thoại hợp lệ (Ví dụ: 0912345678).');
+                    document.getElementById('phone').focus();
+                    return;
+                }
+                
+                // Hide form and show success message
+                regForm.style.display = 'none';
+                successMsg.style.display = 'block';
+                
+                // Optional: Scroll to success message
+                successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
+            // FAQ Accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    // Đóng các FAQ khác
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                        }
+                    });
+
+                    // Toggle FAQ hiện tại
+                    item.classList.toggle('active');
+                    const answer = item.querySelector('.faq-answer');
+                    if (item.classList.contains('active')) {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    } else {
+                        answer.style.maxHeight = null;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
